@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive FEA Learning</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the interactive code editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Interactive Finite Element Analysis (FEA)</h1>
+        <p>Learn the foundations of structural engineering through interactive visuals and code.</p>
+    </header>
+
+    <div class="container">
+        <!-- LEFT PANEL: Theory & Editor -->
+        <div class="left-panel">
+            <section class="theory">
+                <h2>1. The Foundation: Hooke's Law</h2>
+                <p>Every continuous material can be thought of as a complex web of springs. The behavior of a single elastic spring is governed by Hooke's Law:</p>
+                <div class="formula">F = K &times; &Delta;x</div>
+                <ul>
+                    <li><strong>F</strong>: Force applied (Newtons)</li>
+                    <li><strong>K</strong>: Stiffness of the spring (N/m)</li>
+                    <li><strong>&Delta;x</strong>: Displacement (Stretch/Compression in meters)</li>
+                </ul>
+            </section>
+
+            <section class="editor-section">
+                <h2>2. Code It Yourself</h2>
+                <p>Write the logic to calculate displacement based on Force (<code>F</code>) and Stiffness (<code>K</code>). When you hit Run, the canvas will use your code!</p>
+                <textarea id="code-editor">
+// Function must return the displacement (delta x)
+function calculateDisplacement(F, K) {
+    // TODO: Implement Hooke's Law (dx = F / K)
+    // Currently returns 0. Change this!
+    let displacement = 0; 
+    
+    return displacement;
+}
+</textarea>
+                <button id="run-code-btn">Run My Code</button>
+                <div id="editor-error" class="error-msg"></div>
+            </section>
+        </div>
+
+        <!-- RIGHT PANEL: Visualizer & Controls -->
+        <div class="right-panel">
+            <section class="controls">
+                <div class="control-group">
+                    <label for="force-slider">Force (F): <span id="force-val">0 N</span></label>
+                    <input type="range" id="force-slider" min="-500" max="500" value="0">
+                </div>
+                <div class="control-group">
+                    <label for="stiff-slider">Stiffness (K): <span id="stiff-val">100 N/m</span></label>
+                    <input type="range" id="stiff-slider" min="10" max="500" value="100">
+                </div>
+            </section>
+
+            <section class="canvas-container">
+                <canvas id="feaCanvas" width="600" height="300"></canvas>
+                <div class="math-output">
+                    <h3>System State:</h3>
+                    <p id="calc-output">Displacement (&Delta;x) = 0.00 m</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
