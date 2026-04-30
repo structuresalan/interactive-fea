@@ -11,5 +11,5 @@ This app provides a visual sandbox where you can:
 
 It is designed to be deployed directly to Vercel as a static site.
 
-## 2. Interactive Jupyter Notebook (`FEA_Interactive_Learning.ipynb`)
-For a deeper dive into the mathematics, matrix assembly, and boundary conditions using Python and NumPy, you can run the provided Jupyter Notebook.
+## 2. Interactive Jupyter Notebook
+For a deeper dive into the mathematics, matrix assembly, and boundary conditions using Python and NumPy, navigate to the `jupyter_notebook/` folder.
