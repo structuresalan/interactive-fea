@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive FEA Learning</title>
+    <title>Interactive FEA for Structural Engineering</title>
     <link rel="stylesheet" href="styles.css">
     
-    <!-- CodeMirror for the interactive code editor -->
+    <!-- CodeMirror -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
@@ -14,63 +14,194 @@
 </head>
 <body>
     <header>
-        <h1>Interactive Finite Element Analysis (FEA)</h1>
-        <p>Learn the foundations of structural engineering through interactive visuals and code.</p>
+        <h1>Interactive FEA for Structural Engineering</h1>
+        <p>Learn the math and code behind finite element analysis.</p>
     </header>
 
-    <div class="container">
-        <!-- LEFT PANEL: Theory & Editor -->
-        <div class="left-panel">
-            <section class="theory">
-                <h2>1. The Foundation: Hooke's Law</h2>
-                <p>Every continuous material can be thought of as a complex web of springs. The behavior of a single elastic spring is governed by Hooke's Law:</p>
-                <div class="formula">F = K &times; &Delta;x</div>
-                <ul>
-                    <li><strong>F</strong>: Force applied (Newtons)</li>
-                    <li><strong>K</strong>: Stiffness of the spring (N/m)</li>
-                    <li><strong>&Delta;x</strong>: Displacement (Stretch/Compression in meters)</li>
-                </ul>
-            </section>
+    <div class="app-layout">
+        <!-- SIDEBAR NAVIGATION -->
+        <nav class="sidebar">
+            <h3>Curriculum</h3>
+            <ul id="nav-list">
+                <li class="active" data-target="module-1">1. Hooke's Law</li>
+                <li data-target="module-2">2. Local Stiffness Matrix</li>
+                <li data-target="module-3">3. Global Assembly</li>
+            </ul>
+        </nav>
 
-            <section class="editor-section">
-                <h2>2. Code It Yourself</h2>
-                <p>Write the logic to calculate displacement based on Force (<code>F</code>) and Stiffness (<code>K</code>). When you hit Run, the canvas will use your code!</p>
-                <textarea id="code-editor">
-// Function must return the displacement (delta x)
+        <!-- MAIN CONTENT AREA -->
+        <main class="content-area">
+            
+            <!-- ============================================== -->
+            <!-- MODULE 1: HOOKE'S LAW                          -->
+            <!-- ============================================== -->
+            <div id="module-1" class="module active-module">
+                <div class="container">
+                    <div class="left-panel">
+                        <section class="theory">
+                            <h2>Module 1: The Foundation (Hooke's Law)</h2>
+                            <p>Every continuous material can be thought of as a complex web of springs. The behavior of a single elastic spring is governed by Hooke's Law:</p>
+                            <div class="formula">F = K &times; &Delta;x</div>
+                            <p>To find how much a structural element deforms under load, we solve for displacement: <code>&Delta;x = F / K</code></p>
+                        </section>
+
+                        <section class="editor-section">
+                            <h2>Code It Yourself</h2>
+                            <p>Write the logic to calculate displacement. The interactive canvas uses this code!</p>
+                            <textarea id="editor-m1">
 function calculateDisplacement(F, K) {
-    // TODO: Implement Hooke's Law (dx = F / K)
-    // Currently returns 0. Change this!
-    let displacement = F / K; 
+    // TODO: Return the displacement (dx)
+    // Hint: Use F and K
     
+    let displacement = 0; 
     return displacement;
 }
 </textarea>
-                <button id="run-code-btn">Run My Code</button>
-                <div id="editor-error" class="error-msg"></div>
-            </section>
-        </div>
+                            <div class="button-group">
+                                <button class="btn-run" id="btn-run-m1">Run My Code</button>
+                                <button class="btn-solution" id="btn-sol-m1">Show Solution</button>
+                            </div>
+                            <div id="error-m1" class="error-msg"></div>
+                        </section>
+                    </div>
 
-        <!-- RIGHT PANEL: Visualizer & Controls -->
-        <div class="right-panel">
-            <section class="controls">
-                <div class="control-group">
-                    <label for="force-slider">Force (F): <span id="force-val">0 N</span></label>
-                    <input type="range" id="force-slider" min="-500" max="500" value="0">
-                </div>
-                <div class="control-group">
-                    <label for="stiff-slider">Stiffness (K): <span id="stiff-val">100 N/m</span></label>
-                    <input type="range" id="stiff-slider" min="10" max="500" value="100">
-                </div>
-            </section>
+                    <div class="right-panel">
+                        <section class="controls">
+                            <div class="control-group">
+                                <label>Force (F): <span id="val-F-m1">0 N</span></label>
+                                <input type="range" id="slider-F-m1" min="-500" max="500" value="0">
+                            </div>
+                            <div class="control-group">
+                                <label>Stiffness (K): <span id="val-K-m1">100 N/m</span></label>
+                                <input type="range" id="slider-K-m1" min="10" max="500" value="100">
+                            </div>
+                        </section>
 
-            <section class="canvas-container">
-                <canvas id="feaCanvas" width="600" height="300"></canvas>
-                <div class="math-output">
-                    <h3>System State:</h3>
-                    <p id="calc-output">Displacement (&Delta;x) = 0.00 m</p>
+                        <section class="canvas-container">
+                            <canvas id="canvas-m1" width="500" height="250"></canvas>
+                            <div class="math-output">
+                                <p id="output-m1">Displacement (&Delta;x) = 0.00 m</p>
+                            </div>
+                        </section>
+                    </div>
                 </div>
-            </section>
-        </div>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- MODULE 2: LOCAL STIFFNESS MATRIX               -->
+            <!-- ============================================== -->
+            <div id="module-2" class="module">
+                <div class="container">
+                    <div class="left-panel">
+                        <section class="theory">
+                            <h2>Module 2: The Local Stiffness Matrix</h2>
+                            <p>In structural FEA, a 1D element (like a truss member) connects Node 1 and Node 2. When we apply Hooke's law to both nodes simultaneously, we get a matrix equation:</p>
+                            <div class="formula">
+                                [F1, F2]<sup>T</sup> = K * [[1, -1], [-1, 1]] * [U1, U2]<sup>T</sup>
+                            </div>
+                            <p>This <code>2x2</code> matrix is the <strong>Local Stiffness Matrix</strong>. It maps the forces at the nodes to the displacements at the nodes.</p>
+                        </section>
+
+                        <section class="editor-section">
+                            <h2>Code It Yourself</h2>
+                            <p>Write a function that accepts stiffness <code>K</code> and returns a 2D array representing the Local Stiffness Matrix.</p>
+                            <textarea id="editor-m2">
+function getLocalMatrix(K) {
+    // TODO: Return a 2x2 array (array of arrays)
+    // representing K * [[1, -1], [-1, 1]]
+    
+    return [
+        [0, 0],
+        [0, 0]
+    ];
+}
+</textarea>
+                            <div class="button-group">
+                                <button class="btn-run" id="btn-run-m2">Run My Code</button>
+                                <button class="btn-solution" id="btn-sol-m2">Show Solution</button>
+                            </div>
+                            <div id="error-m2" class="error-msg"></div>
+                        </section>
+                    </div>
+
+                    <div class="right-panel">
+                        <section class="controls">
+                            <div class="control-group">
+                                <label>Truss Stiffness (K): <span id="val-K-m2">100 N/m</span></label>
+                                <input type="range" id="slider-K-m2" min="10" max="1000" value="100">
+                            </div>
+                        </section>
+
+                        <section class="canvas-container">
+                            <h3>Generated Local Matrix</h3>
+                            <div class="matrix-display" id="matrix-m2">
+                                <div class="matrix-row"><span>0</span><span>0</span></div>
+                                <div class="matrix-row"><span>0</span><span>0</span></div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- MODULE 3: GLOBAL ASSEMBLY                      -->
+            <!-- ============================================== -->
+            <div id="module-3" class="module">
+                <div class="container">
+                    <div class="left-panel">
+                        <section class="theory">
+                            <h2>Module 3: Global Assembly</h2>
+                            <p>Structures consist of many elements connected at nodes. If Truss 1 (K1) connects Nodes 1-2, and Truss 2 (K2) connects Nodes 2-3, we must combine their local matrices into a <strong>Global Stiffness Matrix</strong>.</p>
+                            <p>The shared Node 2 receives stiffness contributions from both elements (K1 + K2). The resulting global matrix is <code>3x3</code>.</p>
+                        </section>
+
+                        <section class="editor-section">
+                            <h2>Code It Yourself</h2>
+                            <p>Assemble the <code>3x3</code> global matrix given K1 and K2.</p>
+                            <textarea id="editor-m3">
+function getGlobalMatrix(K1, K2) {
+    // TODO: Construct the 3x3 global matrix
+    
+    return [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+    ];
+}
+</textarea>
+                            <div class="button-group">
+                                <button class="btn-run" id="btn-run-m3">Run My Code</button>
+                                <button class="btn-solution" id="btn-sol-m3">Show Solution</button>
+                            </div>
+                            <div id="error-m3" class="error-msg"></div>
+                        </section>
+                    </div>
+
+                    <div class="right-panel">
+                        <section class="controls">
+                            <div class="control-group">
+                                <label>Truss 1 (K1): <span id="val-K1-m3">100</span></label>
+                                <input type="range" id="slider-K1-m3" min="10" max="500" value="100">
+                            </div>
+                            <div class="control-group">
+                                <label>Truss 2 (K2): <span id="val-K2-m3">200</span></label>
+                                <input type="range" id="slider-K2-m3" min="10" max="500" value="200">
+                            </div>
+                        </section>
+
+                        <section class="canvas-container">
+                            <h3>Generated Global Matrix</h3>
+                            <div class="matrix-display" id="matrix-m3">
+                                <div class="matrix-row"><span>0</span><span>0</span><span>0</span></div>
+                                <div class="matrix-row"><span>0</span><span>0</span><span>0</span></div>
+                                <div class="matrix-row"><span>0</span><span>0</span><span>0</span></div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+        </main>
     </div>
 
     <script src="app.js"></script>
